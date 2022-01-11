@@ -56,8 +56,6 @@ curl_close($curl);
 
 // echo $people;
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -73,10 +71,15 @@ curl_close($curl);
 </head>
 
 <body style="display: flex; align-items:center;">
-    <div id="root">
+<div id="root" style="height: 90vh; display: none;">
+        </div>
+    <form id="myForm" method="post" action="mail.php">
     <div id="editor" style="height: 90vh;" name="userQuote" style="display: none;">
         </div>
-    </div>
+        <input type="hidden"name="mailContent" id="editorval" >
+        <input type="file" name="attachment" id="files" style="width:250px;margin-left:100px;padding-top:30px"  ><br><br>
+        <button type="button" id="sendQuote" name="usrSubmit" style="width:250px;margin-left:100px;background-color:#4285f4;color:white;outline:none;border-radius:10px" onclick="sendEmail()" >Send Mail</button>
+    </form>
 </body>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
@@ -271,10 +274,154 @@ function timeConverter(time){
 		}
   return emailData;
 }
+
+function sendEmail(){
+
+   let content =  $("#editor").html();
+    console.log(content);
+    $("#editorval").val(content);
+   document.getElementById("myForm").submit();
+
+}
 function mailTemplate(data){
         let mailData = emailHTMLdata(data);
         console.log(mailData);
-        return(` <p>html mail template<p>`)
+        return(` 
+    <br>
+<table style="border-collapse: collapse !important; width: 100%;
+background: #f5f5f5;" align="center" cellspacing="0"
+cellpadding="0" border="0">
+<tbody>
+<tr>
+<td>
+<table style="border-collapse: collapse !important;"
+align="center" width="1024" cellspacing="0"
+cellpadding="0" border="0">
+<tbody>
+<tr style="background: #3C87BE; height: 53px; ">
+<td> <img
+src="https://flightcharter.com.au/images/fc-banner-logo.png">
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table style="border-collapse: collapse !important;
+background: #fff; border-left: 28px solid #fff;
+border-right: 28px solid #fff; font-family: Lucida Sans
+Unicode, Tahoma;" align="center" width="1024"
+cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr style="vertical-align: top;">
+<td style="padding-top: 15px; line-height: 20px;
+font-size: 16px; padding-bottom: 20px; width: 50%"><br>
+<span style="color: #3C87BE; text-transform:
+uppercase; font-weight: bold;">Your Details</span><br>
+
+
+<label>Full name<label><br>
+<label>company name<label><br>
+<label>primaryEmail<label><br>
+<label>Primary COntact<label><br>
+
+
+</td>
+<td style="padding-top: 15px; line-height: 20px;
+font-size: 16px; padding-bottom: 20px; width: 50%;
+text-align: right; font-weight: bold;"> BOOKING
+CONFIRMATION FOR FLT-  RFQ- 
+
+<label> FLT </label> <br>
+&nbsp;&nbsp; </td>
+</tr>
+<tr>
+<td style="padding-bottom: 20px;" colspan="2"> Dear
+
+<label>fname</label>, <br>
+
+<br>
+<p>This is to confirm your charter flight FLT-<label> FLT </label><br>
+Please check all details carefully and advise us immediately of any errors or omissions.<br>
+Note that all times are local to departure or destination point.<br>
+</p>
+<br><b><ul>ITINERARY</ul></b><br>
+
+ 
+ <b>COVID-19 SPECIAL NOTE:</b><br>
+<u>DOMESTIC (Australia)</u><br>
+It is the responsibility of all passengers to ensure that they have the necessary Covid-19 passes, clearances and permissions from all the respective countries, states and territories that they will visit via their itinerary.<br>
+<br>
+The aircrew will make their own Covid-19 arrangements.<br>
+<br>
+Please visit the <a href="https://www.healthdirect.gov.au/covid19-restriction-checker/domestic-travel">Australian Health Direct</a> website for more information.<br>
+<br>
+<u>INTERNATIONAL</u> (In addition to Domestic above)<br>
+Please note it is a requirement of most foreign countries for international travellers entering their territory that the traveller has obtained a negative COVID test result within the 72 hours immediately prior to travel.<br>
+<br>
+<b>Next Steps:</b><br>
+<ol>
+<li> We will now email you your invoice for {{108983420__output}},  GST Inclusive (or Exempt if applicable)</li>
+<li>We will email you specific departure
+instructions. <br>
+</li>
+<li>Please email us with a Passenger Manifest
+including;</li>
+<ol>
+<li>Full names</li>
+<li>Individual weights</li>
+<li>Number of luggage pieces and total luggage
+weight.</li>
+</ol>
+</ol>
+Please note that small and soft sided bags are best.
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table style="border-collapse: collapse !important;
+background: #fff; border-left: 28px solid #fff;
+border-right: 28px solid #fff; font-family: Lucida Sans
+Unicode, Tahoma; margin-top: 20px;" align="center"
+width="1024" cellspacing="0" cellpadding="0" border="0">
+<tbody>
+<tr style="font-size: 19px;">
+<td>
+<p style="padding-top: 20px; padding-bottom:20px;
+text-align: center;">If you have any queries
+please call or email the team on<br>
+<span style="color:#4C81BB;">1300 OUR FLIGHT (687
+354)</span>.<br>
+<a href="mailto:bookings@flightcharter.com.au">bookings@flightcharter.com.au</a><br>
+<br>
+We understand that you had choices when choosing who to fly with and we thank you for your business.<br>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="font-size: 12px; text-align: center;
+padding-top: 5px;">
+<p>
+<br>
+All estimates, prices, quotes and invoices sent by
+FlightCharter.com.au Pty Ltd are subject to the
+FlightCharter Terms &amp; Conditions </p>
+</td>
+</tr>
+</tbody>
+</table>        
+`)
         }
     </script>
 

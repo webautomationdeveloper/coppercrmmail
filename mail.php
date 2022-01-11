@@ -1,9 +1,27 @@
 <?php
 include('smtp/PHPMailerAutoload.php');
 
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
 
-$html='Msg hello there';
-echo smtp_mailer('waautomationdeveloper@gmail.com','subject test',$html);
+
+
+$html=$_POST['mailContent'];
+smtp_mailer('waautomationdeveloper@gmail.com','subject test',$html);
+
+if(isset($_POST['usrSubmit'])){ 
+    $uploaddir = 'uploads/';
+    $uploadfile = $uploaddir . basename($_FILES['attachment']['name']);
+    $total = count($_FILES['attachment']['name']);
+ 
+
+        if (move_uploaded_file($_FILES["attachment"]["tmp_name"], $uploadfile)) {
+            echo "Thanks for Submitting your Quotation";
+        }else {
+            echo "Sorry, there was an error while submitting";
+            }
+}
 
 
 
