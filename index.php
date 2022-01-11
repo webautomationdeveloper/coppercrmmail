@@ -73,10 +73,10 @@ curl_close($curl);
 <body style="display: flex; align-items:center;">
 <div id="root" style="height: 90vh; display: none;">
         </div>
-    <form id="myForm" method="post" action="mail.php">
-    <div id="editor" style="height: 90vh;" name="userQuote" style="display: none;">
+    <form id="myForm" method="post" action="mail.php" style="display: none;">
+    <div id="editor" style="height: 90vh;" name="userQuote" >
         </div>
-        <input type="hidden"name="mailContent" id="editorval" >
+        <input type="hidden"name="mailContent" id="editorval" style="display: none;">
         <input type="file" name="attachment" id="files" style="width:250px;margin-left:100px;padding-top:30px"  ><br><br>
         <button type="button" id="sendQuote" name="usrSubmit" style="width:250px;margin-left:100px;background-color:#4285f4;color:white;outline:none;border-radius:10px" onclick="sendEmail()" >Send Mail</button>
     </form>
@@ -108,14 +108,19 @@ curl_close($curl);
             for (const [key, value] of Object.entries(data)) {
                 if(value== null){ missingVal = missingVal + "<p>"+ key +"</p>" }
             }
-          if(missingVal.length<0) 
-          $("#root").append("<div><h1 style='text-align: center;'>Below fields are missing-</h1><div style='text-align: left;'>"+ missingVal +"</div></div>");
+          if(missingVal.length<0) {
+              $("#root").show();
+              $("#root").append("<div><h1 style='text-align: center;'>Below fields are missing-</h1><div style='text-align: left;'>"+ missingVal +"</div></div>");
+            }
           else {
               createTemplate(data);
             }
-        }else console.log("sales stage not booked");
+        }else {
+            $("#root").show();
+              $("#root").append("<div><h1 style='text-align: center;'>Sales Stage not booked-</h1><div style='text-align: left;'>"+ missingVal +"</div></div>");
+        }
         function createTemplate(data){
-            $("#editor").show();
+            $("#myForm").show();
             let textVal = mailTemplate(data);
             const delta = quill.clipboard.convert(textVal);
             quill.setContents(delta, 'silent');
