@@ -1,55 +1,39 @@
-<?php
-include('smtp/PHPMailerAutoload.php');
+<?php 
 
-// echo '<pre>';
-// print_r($_POST);
-// echo '</pre>';
+$uploaddir = 'uploads/';
+$uploadfile = $uploaddir . basename($_FILES['attachment']['name']);
+move_uploaded_file($_FILES["attachment"]["tmp_name"], $uploadfile);
+
+require 'includes/PHPMailer.php';
+require 'includes/SMTP.php';
+require 'includes/Exception.php';
 
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+$content = $_POST['mailContent'];  /*$_POST['userQuote']*/
+$mail= new PHPMailer();
 
-$html=$_POST['mailContent'];
-smtp_mailer('waautomationdeveloper@gmail.com','subject test',$html);
+$mail->isSMTP();
+$mail->Host="smtp.gmail.com";
+$mail->SMTPAuth="true";
+$mail->SMTPSecure= "tls";
+$mail->Port="587";
+$mail->Username="webautomationdeveloper@gmail.com";
+$mail->Password="Test@2022";
+$mail->setFrom("webautomationdeveloper@gmail.com");
+$mail->isHTML(true); 
+$mail->Body= ''.$content.'';
+$mail->AddAttachment($uploadfile);
+$mail->addAddress("webautomationtester@gmail.com");
 
-if(isset($_POST['usrSubmit'])){ 
-    $uploaddir = 'uploads/';
-    $uploadfile = $uploaddir . basename($_FILES['attachment']['name']);
-    $total = count($_FILES['attachment']['name']);
- 
-
-        if (move_uploaded_file($_FILES["attachment"]["tmp_name"], $uploadfile)) {
-            echo "Thanks for Submitting your Quotation";
-        }else {
-            echo "Sorry, there was an error while submitting";
-            }
+if( $mail->Send()){
+    echo '<br> mail has been Sent';
 }
-
-
-
-function smtp_mailer($to,$subject, $msg){
-	$mail = new PHPMailer(); 
-	$mail->SMTPDebug  = 3;
-	$mail->IsSMTP(); 
-	$mail->SMTPAuth = true; 
-	$mail->SMTPSecure = 'tls'; 
-	$mail->Host = "smtp.gmail.com";
-	$mail->Port = 587; 
-	$mail->IsHTML(true);
-	$mail->CharSet = 'UTF-8';
-	$mail->Username = "webautomationdeveloper@gmail.com";
-	$mail->Password = "Test@2022";
-	$mail->SetFrom("webautomationdeveloper@gmail.com");
-	$mail->Subject = $subject;
-	$mail->Body =$msg;
-	$mail->AddAddress($to);
-	$mail->SMTPOptions=array('ssl'=>array(
-		'verify_peer'=>false,
-		'verify_peer_name'=>false,
-		'allow_self_signed'=>false
-	));
-	if(!$mail->Send()){
-		echo $mail->ErrorInfo;
-	}else{
-		return 'Sent';
-	}
+else{
+    echo '<br> mail not sent'; 
 }
+ $mail->smtpClose();
+
 ?>

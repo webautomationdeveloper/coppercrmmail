@@ -69,16 +69,24 @@ curl_close($curl);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
+<style>
+    #root{
+    padding: 10px;
+    border: 2px solid red;
+    width: 80vw;
+    height: 95vh;
+    
+}
+</style>
 
 <body style="display: flex; align-items:center;">
 <div id="root" style="height: 90vh; display: none;">
         </div>
-    <form id="myForm" method="post" action="mail.php" style="display: none;">
-    <div id="editor" style="height: 90vh;" name="userQuote" >
-        </div>
+    <form id="myForm" method="post" action="mail.php" style="display: none;" enctype="multipart/form-data">
+    <div id="editor" style="height: 90vh; width:100%" name="userQuote" ></div>
         <input type="hidden"name="mailContent" id="editorval" style="display: none;">
         <input type="file" name="attachment" id="files" style="width:250px;margin-left:100px;padding-top:30px"  ><br><br>
-        <button type="button" id="sendQuote" name="usrSubmit" style="width:250px;margin-left:100px;background-color:#4285f4;color:white;outline:none;border-radius:10px" onclick="sendEmail()" >Send Mail</button>
+        <button type="button" id="sendQuote"  style="width:250px;margin-left:100px;background-color:#4285f4;color:white;outline:none;border-radius:10px" onclick="sendEmail()" >Send Mail</button>
     </form>
 </body>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
@@ -327,34 +335,49 @@ font-size: 16px; padding-bottom: 20px; width: 50%"><br>
 uppercase; font-weight: bold;">Your Details</span><br>
 
 
-<label>Full name<label><br>
-<label>company name<label><br>
-<label>primaryEmail<label><br>
-<label>Primary COntact<label><br>
+<label>${mailData.primaryContact}<label><br>
+<label>${mailData.companyName}<label><br>
+<label>${mailData.primaryEmail}primaryEmail<label><br>
+<label>${mailData.primaryContact}<label><br>
 
 
 </td>
 <td style="padding-top: 15px; line-height: 20px;
 font-size: 16px; padding-bottom: 20px; width: 50%;
 text-align: right; font-weight: bold;"> BOOKING
-CONFIRMATION FOR FLT-  RFQ- 
-
-<label> FLT </label> <br>
+CONFIRMATION FOR FLT-  RFQ- <label> ${mailData.flt} </label> <br>
 &nbsp;&nbsp; </td>
 </tr>
 <tr>
-<td style="padding-bottom: 20px;" colspan="2"> Dear
-
-<label>fname</label>, <br>
+<td style="padding-bottom: 20px;" colspan="2"> Dear<label>${mailData.primaryFirstName}</label>, <br>
 
 <br>
-<p>This is to confirm your charter flight FLT-<label> FLT </label><br>
+<p>This is to confirm your charter flight FLT-<label> ${mailData.flt} </label><br>
 Please check all details carefully and advise us immediately of any errors or omissions.<br>
 Note that all times are local to departure or destination point.<br>
 </p>
 <br><b><ul>ITINERARY</ul></b><br>
 
- 
+Flight Number: ${mailData.flt}<br>
+Aircraft Type: ${mailData.aircraftType}<br>
+Number of Passengers:${mailData.noOfPassenger}<br>
+<br>Trip Type: ${mailData.tripType}<br>
+<br>
+${mailData.LEG1__Departure?'Depart :'+mailData.LEG1__Departure +'<br>'+mailData.LEG1__Date+' at '+mailData.LEG1__ETD+'<br>'+'Desination :'+mailData.LEG1__Destination+'<br>' :""}
+<br>
+${mailData.LEG2__Departure?'Depart :'+mailData.LEG2__Departure +'<br>'+mailData.LEG2__Date+' at '+mailData.LEG2__ETD+'<br>'+'Desination :'+mailData.LEG2__Destination+'<br>' :""}
+<br>
+${mailData.LEG3__Departure?'Depart :'+mailData.LEG3__Departure +'<br>'+mailData.LEG3__Date+' at '+mailData.LEG3__ETD+'<br>'+'Desination :'+mailData.LEG3__Destination+'<br>' :""}
+<br>
+${mailData.LEG4__Departure?'Depart :'+mailData.LEG4__Departure +'<br>'+mailData.LEG4__Date+' at '+mailData.LEG4__ETD+'<br>'+'Desination :'+mailData.LEG4__Destination+'<br>' :""}
+<br>
+${mailData.LEG5__Departure?'Depart :'+mailData.LEG5__Departure +'<br>'+mailData.LEG5__Date+' at '+mailData.LEG5__ETD+'<br>'+'Desination :'+mailData.LEG5__Destination+'<br>' :""}
+<br>
+${mailData.LEG6__Departure?'Depart :'+mailData.LEG6__Departure +'<br>'+mailData.LEG6__Date+' at '+mailData.LEG6__ETD+'<br>'+'Desination :'+mailData.LEG6__Destination+'<br>' :""}
+<br>
+ <br>
+
+
  <b>COVID-19 SPECIAL NOTE:</b><br>
 <u>DOMESTIC (Australia)</u><br>
 It is the responsibility of all passengers to ensure that they have the necessary Covid-19 passes, clearances and permissions from all the respective countries, states and territories that they will visit via their itinerary.<br>
