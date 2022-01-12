@@ -15,7 +15,7 @@ curl_setopt_array($curl, array(
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'GET',
   CURLOPT_HTTPHEADER => array(
-    'X-PW-AccessToken: 9b6ff9a74196d34ed0268fb5bc101845',
+    'X-PW-AccessToken: d329e57aad8ff703655cad6bfc085e38',
     'X-PW-Application: developer_api',
     'X-PW-UserEmail: amitdeshmukh855@gmail.com',
     'Content-Type: application/json',
@@ -42,7 +42,7 @@ curl_setopt_array($curl, array(
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'GET',
   CURLOPT_HTTPHEADER => array(
-    'X-PW-AccessToken: 9b6ff9a74196d34ed0268fb5bc101845',
+    'X-PW-AccessToken: d329e57aad8ff703655cad6bfc085e38',
     'X-PW-Application: developer_api',
     'x-pw-useremail: amitdeshmukh855@gmail.com',
     'Content-Type: application/json',
@@ -64,7 +64,6 @@ curl_close($curl);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Copper CRM Mailsystem </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -112,6 +111,7 @@ curl_close($curl);
             }
         var missingVal = "";
         let data  = <?php echo ($response); ?>;
+        console.log(data);
         if(pipeLineStages[data.pipeline_stage_id] !== "Booked"){
             for (const [key, value] of Object.entries(data)) {
                 if(value== null){ missingVal = missingVal + "<p>"+ key +"</p>" }
@@ -139,7 +139,7 @@ curl_close($curl);
 
 function emailHTMLdata(data){
   let people = <?php echo $people; ?>;
-  console.log("list of attribute"+ people);
+  console.log(people);
 
 
   let emailData ={
@@ -151,14 +151,15 @@ function emailHTMLdata(data){
   }
 function timeConverter(time){
   if(time !== null){
-  var a = new Date(time * 1000);
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var dateString  = Utilities.formatDate(a,"AUS", " EE MMM d yyyy HH:mm  ")+"(L)"
-  return dateString;
-  //return(`${year}/${month}/${date}`);
+//   var a = new Date(time * 1000);
+//   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+//   var year = a.getFullYear();
+//   var month = months[a.getMonth()];
+//   var date = a.getDate();
+// //   var dateString  = Utilities.formatDate(a,"AUS", " EE MMM d yyyy HH:mm  ")+"(L)"
+//       //   return dateString;
+//   return(`${year}/${month}/${date}`);
+return time;
   }
   else return null;
 }
